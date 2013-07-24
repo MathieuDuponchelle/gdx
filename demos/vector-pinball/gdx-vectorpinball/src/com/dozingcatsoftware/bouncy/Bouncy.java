@@ -16,6 +16,8 @@ public class Bouncy extends InputAdapter implements ApplicationListener {
 	GLFieldRenderer renderer;
 	Field field;
 	int level = 1;
+	int width;
+	int height;
 	WindowedMean physicsMean = new WindowedMean(10);
 	WindowedMean renderMean = new WindowedMean(10);
 	long startTime = TimeUtils.nanoTime();
@@ -72,7 +74,9 @@ public class Bouncy extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public void resize (int width, int height) {
-
+		this.width = width;
+		this.height = height;
+		System.out.println("width heigh : " + width + height);
 	}
 
 	@Override
@@ -87,16 +91,12 @@ public class Bouncy extends InputAdapter implements ApplicationListener {
 
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		field.removeDeadBalls();
-		if (field.getBalls().size() != 0) field.setAllFlippersEngaged(true);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp (int x, int y, int pointer, int button) {
-		field.removeDeadBalls();
-		if (field.getBalls().size() == 0) field.launchBall();
-		field.setAllFlippersEngaged(false);
+		field.launchBall((float) x / this.width * field.getWidth(), (float) (this.height - y) / this.height * field.getHeight());
 		return false;
 	}
 

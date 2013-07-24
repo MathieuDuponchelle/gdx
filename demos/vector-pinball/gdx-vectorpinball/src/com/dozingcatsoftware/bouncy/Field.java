@@ -195,13 +195,14 @@ public class Field implements ContactListener {
 		scheduledActions.add(sa);
 	}
 
-	/** Launches a new ball. The position and velocity of the ball are controlled by the "launch" key in the field layout JSON. */
-	public Body launchBall () {
-		List<Number> position = layout.getLaunchPosition();
+	/** Launches a new ball. The position and velocity of the ball are controlled by the "launch" key in the field layout JSON. 
+	 * @param g 
+	 * @param f */
+	public Body launchBall (float f, float g) {
 		List<Float> velocity = layout.getLaunchVelocity();
 		float radius = layout.getBallRadius();
-
-		Body ball = Box2DFactory.createCircle(world, position.get(0).floatValue(), position.get(1).floatValue(), radius, false);
+		System.out.println("x, y" + f + " " + g);
+		Body ball = Box2DFactory.createCircle(world, f, g, radius, false);
 		ball.setBullet(true);
 		ball.setLinearVelocity(new Vector2(velocity.get(0), velocity.get(1)));
 		this.balls.add(ball);
